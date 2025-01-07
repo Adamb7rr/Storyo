@@ -50,7 +50,7 @@ function App() {
       {/* Theme Toggle Button */}
       <button
         onClick={toggleTheme}
-        className="fixed top-4 right-4 z-50 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+        className="fixed top-4 right-8 z-50 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
       >
         {theme === 'light' ? '🌙' : '☀️'}
       </button>
