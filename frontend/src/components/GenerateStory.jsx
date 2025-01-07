@@ -136,7 +136,7 @@ const GenerateStory = () => {
                 <select
                   value={mode}
                   onChange={(e) => setMode(e.target.value)}
-                  className="w-full p-3 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-2 border-indigo-100 dark:border-indigo-700 rounded-xl focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all duration-200"
+                  className="focus:outline-none dark:focus:ring-blue-800 w-full p-3 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-2 border-indigo-100 dark:border-indigo-700 rounded-xl focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all duration-200"
                 >
                   <option value="general">📝 General</option>
                   <option value="fantasy">🧙‍♂️ Fantasy</option>
@@ -210,7 +210,7 @@ const GenerateStory = () => {
                   </div>
 
                   {/* Story Metadata */}
-                  <div className="mt-6 pt-4 border-t border-indigo-200 dark:border-gray-600">
+                  <div className=" mt-6 pt-4 border-t border-indigo-200 dark:border-gray-600">
                     <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
                       <span>Genre: {mode}</span>
                       <span>Length: {length} words</span>
