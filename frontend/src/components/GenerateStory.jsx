@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BACKEND_URL } from "../config";
-import { color } from "framer-motion";
+
 
 const GenerateStory = () => {
   const [prompt, setPrompt] = useState("");
@@ -97,7 +97,7 @@ const GenerateStory = () => {
   };
   
   return (
-    <div className="transition-colors duration-200">
+    <div className=" transition-colors duration-200">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:py-0">
         <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl backdrop-blur-lg backdrop-filter p-6 sm:p-8">
 

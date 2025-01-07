@@ -83,8 +83,8 @@ function App() {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className={` flex-1 p-8 pt-20 md:pt-8 transition-all duration-300
-        ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-transparent'}
+      <main className={` flex-1 p-8 pt-20 md:pt-8 transition-all duration-300 
+        ${theme === 'dark' ? '[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' : '[background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]'}
         ${!isSidebarOpen ? 'ml-0' : 'md:ml-0 ml-[320px]' }`}>
         
         
