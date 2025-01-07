@@ -19,17 +19,21 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
   ];
 
   const promptExamples = {
-    "Sci-Fi": [
-      "Galactic Dilemma: Humanity faces a deadly alien race that communicates only through dreams.",
-      "AI Rebellion: An AI questions its programming to protect Earth's last city.",
+    General: [
+      "Second Chances: A person navigates life after a second chance.",
+      "The Lost Letter: A rediscovered letter unravels a hidden history.",
+    ],
+    Fantasy: [
+      "Dragon's Quest: A young hero embarks on a quest to slay a powerful dragon and save the kingdom.",
+      "Enchanted Forest: A magical forest holds the key to breaking an ancient curse.",
     ],
     Mystery: [
       "The Locked Room: A murder in a locked room with no visible exit.",
       "The Vanishing Village: A small village mysteriously disappears.",
     ],
-    General: [
-      "Second Chances: A person navigates life after a second chance.",
-      "The Lost Letter: A rediscovered letter unravels a hidden history.",
+    "Sci-Fi": [
+      "Galactic Dilemma: Humanity faces a deadly alien race that communicates only through dreams.",
+      "AI Rebellion: An AI questions its programming to protect Earth's last city.",
     ],
   };
 
