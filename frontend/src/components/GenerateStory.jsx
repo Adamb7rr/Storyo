@@ -191,7 +191,6 @@ const GenerateStory = () => {
                 "✨ Generate Story"
               )}
             </button>
-            
 
             {/* Generated Story Display */}
             {generatedStory && (
