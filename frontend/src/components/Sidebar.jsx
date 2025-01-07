@@ -9,12 +9,12 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
   const [expandedCategory, setExpandedCategory] = useState(null);
 
   const navigationItems = [
-    { id: "generate", label: "Generate a Story", icon: <FiHome size={20} /> },
-    { id: "view", label: "View Saved Stories", icon: <FiBook size={20} /> },
+    { id: "generate", label: "Generate a Story", icon: <FiHome size={25} /> },
+    { id: "view", label: "View Saved Stories", icon: <FiBook size={25} /> },
     {
       id: "help",
-      label: "How to Use the App",
-      icon: <FiHelpCircle size={20} />,
+      label: "How to Use",
+      icon: <FiHelpCircle size={25} />,
     },
   ];
 
