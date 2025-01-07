@@ -94,7 +94,7 @@ function App() {
             bg-clip-text text-transparent bg-gradient-to-r 
             ${theme === 'dark' ? 'from-purple-400 to-pink-400' : 'from-indigo-600 to-purple-600'}`}>
 
-            <p className="py-3 text-lg font-bold text-gray-500 lg:text-xl dark:text-gray-400">Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Storyo</span>, an AI-driven platform for generating creative stories.</p>
+            <p className="py-3 text-lg font-bold text-gray-500 lg:text-xl dark:text-gray-400">Welcome to <span className="text-4xl text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Storyo</span>, an AI-driven platform for generating creative stories.</p>
           </h1>
           {/* Content Sections with Animation */}
           <AnimatePresence mode='wait'>
