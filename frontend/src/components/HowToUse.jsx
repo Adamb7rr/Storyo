@@ -38,7 +38,7 @@ const HowToUse = ({ theme }) => {
         "Share stories with others",
         "Organize your stories by categories"
       ],
-      color: "from-green-500 to-emerald-500"
+      color: "from-indigo-500 to-purple-500"
     }
   ];
 
@@ -81,7 +81,7 @@ const HowToUse = ({ theme }) => {
       </motion.div>
 
       {/* Scrollable Content Section */}
-      <div className={`max-h-[63vh] overflow-y-auto`}>
+      <div className={` overflow-y-auto`}>
         {/* Features Grid */}
         <div className="grid md:grid-cols-3 gap-8 mb-6">
           {features.map((feature, index) => (
@@ -180,7 +180,7 @@ const HowToUse = ({ theme }) => {
           <p className={`text-sm ${
             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            Need more help? Contact our support team or visit our documentation.
+            Need more help? Read the documentation  <a  className='text-lg text-sky-600 dark:text-indigo-600' href="https://github.com/Adamb7rr/Storyo/blob/main/README.md">Here📄</a>.
           </p>
         </motion.div>
       </div>
