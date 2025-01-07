@@ -141,7 +141,6 @@ const ViewStories = ({ theme }) => {
                 </span>
               )}
             </div>
-
             <div className={`${ theme === "dark" ? "bg-gray-700" : "bg-indigo-50" } p-3 rounded-lg mb-4`}>
               <p className={`${ theme === "dark" ? "text-white" : "text-gray-600" } text-sm`}>
 
