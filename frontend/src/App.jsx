@@ -39,7 +39,7 @@ function App() {
   }
 
   return (
-    <div className={`flex min-h-screen transition-colors duration-300 
+    <div className={`overflow-hidden flex min-h-screen transition-colors duration-300 
       ${theme === 'dark' ? 'bg-gray-900' : 'bg-gradient-to-br from-indigo-50 to-purple-50'}`}>
       
       {/* Mobile Menu Button */}
@@ -48,6 +48,7 @@ function App() {
         className="fixed top-4 left-4 z-50 p-2 rounded-full bg-indigo-600 text-white md:hidden hover:bg-indigo-700 transition-colors"
       >
         {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+        
       </button>
 
       {/* Theme Toggle Button */}
@@ -67,26 +68,30 @@ function App() {
             exit={{ x: -300 }}
             transition={{ type: "spring", stiffness: 100 }}
             className="fixed md:relative z-40"
+            
           >
             <Sidebar 
               activeSection={activeSection} 
               setActiveSection={setActiveSection}
               theme={theme}
-              closeSidebar={() => setIsSidebarOpen(false)}
+              closeSidebar={() => setIsSidebarOpen( false )}
+              
             />
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className={`flex-1 p-8 pt-20 md:pt-8 transition-all duration-300
+      <main className={` flex-1 p-8 pt-20 md:pt-8 transition-all duration-300
         ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-transparent'}
-        ${!isSidebarOpen ? 'ml-0' : 'md:ml-0 ml-[320px]'}`}>
+        ${!isSidebarOpen ? 'ml-0' : 'md:ml-0 ml-[320px]' }`}>
+        
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          
         >
           
           <h1 className={` text-4xl font-bold mb-3 py-3 text-center
