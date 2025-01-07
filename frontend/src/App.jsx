@@ -6,6 +6,9 @@ import HowToUse from './components/HowToUse';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMenu, FiX } from 'react-icons/fi';
 
+
+
+
 function App() {
   const [activeSection, setActiveSection] = useState('generate');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -85,13 +88,14 @@ function App() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className={`text-5xl font-bold mb-3 py-3 text-center
+          
+          <h1 className={` text-4xl font-bold mb-3 py-3 text-center
             ${theme === 'dark' ? 'text-white' : 'text-indigo-900'}
             bg-clip-text text-transparent bg-gradient-to-r 
             ${theme === 'dark' ? 'from-purple-400 to-pink-400' : 'from-indigo-600 to-purple-600'}`}>
-            Storyo - AI Storytelling
-          </h1>
 
+            <p className="py-3 text-lg font-bold text-gray-500 lg:text-xl dark:text-gray-400">Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Storyo</span>, an AI-driven platform for generating creative stories.</p>
+          </h1>
           {/* Content Sections with Animation */}
           <AnimatePresence mode='wait'>
             <motion.div

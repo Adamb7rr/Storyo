@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { FiHome, FiBook, FiHelpCircle, FiChevronRight } from "react-icons/fi";
 import { RiLightbulbFlashLine } from "react-icons/ri";
 import { useState } from "react";
+import logo from '../images/Storyo main2.png'
+
 
 const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
   const [expandedCategory, setExpandedCategory] = useState(null);
@@ -55,19 +57,22 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
           transition={{ duration: 0.3 }}
         >
           <h2
-            className={`text-2xl font-bold mb-2 
+            className={`h-24 text-2xl font-bold mb-2 
             ${
               theme === "dark" ? "text-white" : "text-indigo-900"
             } flex items-center gap-2`}
           >
-            📚 Navigation
+          <div className="">
+            <img className='' src={logo} alt="" />
+          </div>
+          
           </h2>
           <p
             className={`text-sm ${
               theme === "dark" ? "text-gray-400" : "text-gray-600"
             }`}
           >
-            Explore the app to generate, save, or view stories.
+            Explore the app for generating, saving, and viewing stories.
           </p>
         </motion.div>
       </div>
