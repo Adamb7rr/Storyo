@@ -65,6 +65,7 @@ const ViewStories = ({ theme }) => {
             </button>
           </div>
 
+
           <div className={`${ theme === "dark" ? "bg-gray-700" : "bg-indigo-50" } p-4 rounded-lg mb-4`}>
             <p className={`${ theme === "dark" ? "text-white" : "text-gray-600" }`}>
               <span className="font-semibold">Prompt:</span> {story.prompt}
@@ -128,9 +129,9 @@ const ViewStories = ({ theme }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className={`${ theme === "dark" ? "bg-gray-800" : "bg-white" } p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow `}
+            className={`${ theme === "dark" ? "bg-gray-800" : "bg-white" }  p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow `}
           >
-            <div className="flex justify-between items-start mb-4">
+            <div className=" flex justify-between items-start mb-4">
               <h3 className={`${ theme === "dark" ? "text-indigo-200" : "text-indigo-900" } text-xl font-bold `}>
                 {story.title}
               </h3>
