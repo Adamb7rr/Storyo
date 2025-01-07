@@ -32,14 +32,14 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600">
+      <div className=" flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
       </div>
     );
   }
 
   return (
-    <div className={`overflow-hidden flex min-h-screen transition-colors duration-300 
+    <div className={` overflow-hidden flex min-h-screen transition-colors duration-300 
       ${theme === 'dark' ? 'bg-gray-900' : 'bg-gradient-to-br from-indigo-50 to-purple-50'}`}>
       
       {/* Mobile Menu Button */}

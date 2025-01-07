@@ -46,7 +46,7 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
       className={`w-80 h-screen overflow-y-hidden transition-colors duration-300
       
         ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white" } shadow-xl`}
-      tabindex="-1" 
+      id="s-page-1"
       initial={{ x: -300 }}
       animate={{ x: 0 }}
       exit={{ x: -300 }}
