@@ -43,7 +43,7 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
 
   return (
     <motion.aside
-      className={` w-80 h-screen overflow-y-hidden transition-colors duration-300
+      className={`w-80 h-screen overflow-y-hidden transition-colors duration-300
       
         ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white" } shadow-xl`}
       tabindex="-1" 
