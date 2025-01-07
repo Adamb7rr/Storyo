@@ -118,7 +118,7 @@ const GenerateStory = () => {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="Enter your story prompt here..."
-                className="w-full h-36 p-3 text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 border-2 border-indigo-100 dark:border-indigo-700 rounded-xl focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 resize-none placeholder-gray-400 dark:placeholder-gray-500"
+                className="focus:outline-none dark:focus:ring-blue-800 w-full h-36 p-3 text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 border-2 border-indigo-100 dark:border-indigo-700 rounded-xl focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 resize-none placeholder-gray-400 dark:placeholder-gray-500"
               />
               <div className="absolute bottom-3 left-3 text-gray-400 dark:text-gray-500 text-sm">
                 {prompt.length} characters
