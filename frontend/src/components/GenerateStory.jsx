@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BACKEND_URL } from "../config";
+import { color } from "framer-motion";
 
 const GenerateStory = () => {
   const [prompt, setPrompt] = useState("");
@@ -10,6 +11,7 @@ const GenerateStory = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  
   const handleGenerate = async () => {
     // Validate prompt
     if (!prompt.trim()) {
@@ -60,6 +62,7 @@ const GenerateStory = () => {
       setLoading(false);
     }
   };
+  
 
   const handleSave = async () => {
     if (!generatedStory) {
@@ -92,7 +95,7 @@ const GenerateStory = () => {
       setError(error.message || "Failed to save story");
     }
   };
-
+  
   return (
     <div className="transition-colors duration-200">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:py-0">
@@ -108,13 +111,16 @@ const GenerateStory = () => {
           <div className="space-y-8">
             {/* Prompt Input */}
             <div className="relative">
+              
               <textarea
+                
+                
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="Enter your story prompt here..."
-                className="w-full h-36 p-4 text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 border-2 border-indigo-100 dark:border-indigo-700 rounded-xl focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 resize-none placeholder-gray-400 dark:placeholder-gray-500"
+                className="w-full h-36 p-3 text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 border-2 border-indigo-100 dark:border-indigo-700 rounded-xl focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 resize-none placeholder-gray-400 dark:placeholder-gray-500"
               />
-              <div className="absolute bottom-3 right-3 text-gray-400 dark:text-gray-500 text-sm">
+              <div className="absolute bottom-3 left-3 text-gray-400 dark:text-gray-500 text-sm">
                 {prompt.length} characters
               </div>
             </div>
