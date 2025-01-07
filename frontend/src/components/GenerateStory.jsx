@@ -161,12 +161,12 @@ const GenerateStory = () => {
             {/* Creativity Control */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                Creativity Level: {creativity}
+                Creativity Level: {creativity} <p className="text-sm opacity-60">(Max: 1)</p>
               </label>
               <input
                 type="range"
                 min="0.1"
-                max="1.5"
+                max="1"
                 step="0.1"
                 value={creativity}
                 onChange={(e) => setCreativity(Number(e.target.value))}
