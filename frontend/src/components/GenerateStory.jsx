@@ -135,17 +135,17 @@ const GenerateStory = () => {
                   onChange={(e) => setMode(e.target.value)}
                   className="w-full p-3 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-2 border-indigo-100 dark:border-indigo-700 rounded-xl focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all duration-200"
                 >
+                  <option value="general">📝 General</option>
                   <option value="fantasy">🧙‍♂️ Fantasy</option>
                   <option value="sci-fi">🚀 Sci-Fi</option>
                   <option value="mystery">🔍 Mystery</option>
-                  <option value="general">📝 General</option>
                 </select>
               </div>
 
               {/* Length Control */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                  Story Length: {length} words
+                  Story Length: {length} words <p className="text-sm opacity-60">(Max: 2000)</p>
                 </label>
                 <input
                   type="range"
