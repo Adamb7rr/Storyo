@@ -1,7 +1,7 @@
 # Storyo - AI Storytelling
 
 Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs.
-
+  ![image alt](https://github.com/Adamb7rr/Storyo/blob/e765a1a348367494e9142cbaa9063447f2e247c3/frontend/src/images/Home.png)
 
 - This README provides an overview of how to run and use the project,   including setup instructions for both the frontend and backend.
 -------
