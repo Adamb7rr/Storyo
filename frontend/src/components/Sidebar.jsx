@@ -7,7 +7,7 @@ import logo from '../images/Storyo main2.png'
 
 const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
   const [expandedCategory, setExpandedCategory] = useState(null);
-
+  
   const navigationItems = [
     { id: "generate", label: "Generate a Story", icon: <FiHome size={25} /> },
     { id: "view", label: "View Saved Stories", icon: <FiBook size={25} /> },

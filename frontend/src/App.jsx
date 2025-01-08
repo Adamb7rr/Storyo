@@ -29,6 +29,7 @@ function App() {
     localStorage.setItem('theme', newTheme);
     document.documentElement.classList.toggle('dark');
   };
+  
 
   if (isLoading) {
     return (
@@ -42,7 +43,6 @@ function App() {
   return (
     <div className={` overflow-hidden flex min-h-screen transition-colors duration-300 
       ${theme === 'dark' ? 'bg-gray-900' : 'bg-gradient-to-br from-indigo-50 to-purple-50'}`}>
-      
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -55,10 +55,11 @@ function App() {
       {/* Theme Toggle Button */}
       <button
         onClick={toggleTheme}
-        className="fixed top-4 right-8 z-50 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+        className="fixed top-4 right-4 z-50 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
       >
         {theme === 'light' ? '🌙' : '☀️'}
       </button>
+
 
       {/* Sidebar with Animation */}
       <AnimatePresence>
@@ -75,7 +76,7 @@ function App() {
               activeSection={activeSection} 
               setActiveSection={setActiveSection}
               theme={theme}
-              closeSidebar={() => setIsSidebarOpen( false )}
+              
               
             />
           </motion.div>
@@ -85,7 +86,7 @@ function App() {
       {/* Main Content */}
       <main className={` flex-1 p-8 pt-20 md:pt-8 transition-all duration-300 
         ${theme === 'dark' ? '[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' : '[background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]'}
-        ${!isSidebarOpen ? 'ml-0' : 'md:ml-0 ml-[320px]' }`}>
+        ${!isSidebarOpen ? 'ml-0' : 'null' }`}>
         
         
         <motion.div
@@ -94,6 +95,7 @@ function App() {
           transition={{ duration: 0.5 }}
           
         >
+          
           
           <h1 className={` text-4xl font-bold mb-3 py-3 text-center
             ${theme === 'dark' ? 'text-white' : 'text-indigo-900'}
@@ -123,7 +125,7 @@ function App() {
       {/* Overlay for mobile */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-60 z-30 md:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
