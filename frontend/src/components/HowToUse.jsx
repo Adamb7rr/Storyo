@@ -180,7 +180,7 @@ const HowToUse = ({ theme }) => {
           <p className={`text-sm ${
             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            Need more help? Read the documentation  <a  className='text-lg text-sky-600 dark:text-indigo-600' href="https://github.com/Adamb7rr/Storyo/blob/main/README.md">Here📄</a>.
+            Need more help? Read the documentation  <a  className='text-lg text-sky-600 dark:text-indigo-600' target="_blank" href="https://github.com/Adamb7rr/Storyo/blob/main/README.md">Here📄</a>.
           </p>
         </motion.div>
       </div>
