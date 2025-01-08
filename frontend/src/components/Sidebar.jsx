@@ -194,7 +194,7 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
         {/* Footer */}
         <div className="m-10 h-1 flex">
           {/* Social Buttons */}
-          <a className="flex-1" href="#!" role="button">
+          <a className="flex-1" href="#!" target="_blank" role="button">
     
             <span className="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-[#1877f2]">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -206,7 +206,7 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
           </a>
 
           
-          <a className="flex-1" href="https://www.instagram.com/adam.b7r/" role="button">
+          <a className="flex-1" href="https://www.instagram.com/adam.b7r/" target="_blank" role="button">
             <span className="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-[#c13584]">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 
@@ -216,7 +216,7 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
             </span>
           </a>
 
-          <a className=" flex-1" href="https://github.com/Adamb7rr" role="button">
+          <a className=" flex-1" href="https://github.com/Adamb7rr" target="_blank" role="button">
             <span className="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-black">
               <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 64 64">
                 <path
@@ -225,7 +225,7 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
           </span>
           </a>
 
-          <a className="flex-1" href="https://x.com/AdamB7r" role="button">
+          <a className="flex-1" href="https://x.com/AdamB7r" target="_blank" role="button">
 
             <span className="[&>svg]:h-7 [&>svg]:w-7 [&>svg]:fill-black">
               <svg
