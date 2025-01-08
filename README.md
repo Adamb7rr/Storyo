@@ -5,7 +5,7 @@
 
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/e765a1a348367494e9142cbaa9063447f2e247c3/frontend/src/images/Home.png)
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/8327d526f18df49088e487c8d7af74b4ca3cf083/frontend/src/images/Stories.png)
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/8327d526f18df49088e487c8d7af74b4ca3cf083/frontend/src/images/HowToUse.png)
+  ![image alt](https://github.com/Adamb7rr/Storyo/blob/842a2849b7532a55d232ddd6ad7b5a2bf8eeb016/frontend/src/images/HowToUse.png)
 
 - This README provides an overview of how to run and use the project,   including setup instructions for both the frontend and backend.
 -------
