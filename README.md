@@ -3,11 +3,25 @@
 Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs. The project consists of two parts:
 
 1. **Frontend** built using **Vite**, **React.js**, and **Tailwind CSS**.
-2. **Backend** built using **Flask** and connected to a **MongoDB** database for storing and retrieving generated stories.
+2. **Backend** built using **Flask** and connected to a **MongoDB** database.
+
+-------
+
+## Technologies Used
+
+- **Frontend**:
+  - Vite (build tool)
+  - React.js (UI framework)
+  - Tailwind CSS (styling)
+  
+- **Backend**:
+  - Flask (web framework)
+  - MongoDB (database)
+  - Hugging Face Transformers (for AI-driven story generation)
 
 This README provides an overview of how to run and use the project, including setup instructions for both the frontend and backend.
 
--------
+---
 
 ## Features
 
@@ -191,20 +205,6 @@ Here are the main API endpoints exposed by the backend:
 4. **View Saved Stories**: Click on **View Saved Stories** to see previously saved stories in the database.
 
 5. **How to Use Section**: Click on **How to Use Storyo AI** to see an explanation of how to interact with the platform, along with **prompt examples** to get creative story ideas.
-
----
-
-## Technologies Used
-
-- **Frontend**:
-  - Vite (build tool)
-  - React.js (UI framework)
-  - Tailwind CSS (styling)
-  
-- **Backend**:
-  - Flask (web framework)
-  - MongoDB (database)
-  - Hugging Face Transformers (for AI-driven story generation)
 
 ---
 
