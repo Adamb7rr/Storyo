@@ -7,9 +7,11 @@ Welcome to **Storyo**, an AI-driven platform for generating creative stories bas
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/8327d526f18df49088e487c8d7af74b4ca3cf083/frontend/src/images/Stories.png)
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/842a2849b7532a55d232ddd6ad7b5a2bf8eeb016/frontend/src/images/HowToUse.png)
 
-  # It is also compatible with all devices
+  # It is also compatible with all devices + Light And Dark Theme
+  ![image alt](https://github.com/Adamb7rr/Storyo/blob/141c902aa22ac80284640601a16b360ff4c2bcf7/frontend/src/images/Home%20Dark.png)
+  ![image alt](https://github.com/Adamb7rr/Storyo/blob/141c902aa22ac80284640601a16b360ff4c2bcf7/frontend/src/images/Home%20Light.png)
 
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/842a2849b7532a55d232ddd6ad7b5a2bf8eeb016/frontend/src/images/HowToUse.png)
+  ![image alt](https://github.com/Adamb7rr/Storyo/blob/141c902aa22ac80284640601a16b360ff4c2bcf7/frontend/src/images/Stories%20Dark.png)
 
 - This README provides an overview of how to run and use the project,   including setup instructions for both the frontend and backend.
 -------
