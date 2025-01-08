@@ -107,6 +107,6 @@ def get_stories():
     except Exception as e:
         print(f"Error in get_stories: {str(e)}")
         return jsonify({
-            "success": True,
+            "success": False,
             "error": f"Failed to fetch stories: {str(e)}"
         }), 500

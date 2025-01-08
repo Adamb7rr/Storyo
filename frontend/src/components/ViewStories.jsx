@@ -11,7 +11,7 @@ const ViewStories = ({ theme }) => {
   // Function to fetch stories from the Flask API
   const fetchStories = async () => {
     setLoading(true);
-    setError(null);
+    setError(false);
     try {
       const response = await fetch(`${BACKEND_URL}/api/stories`, {
         method: "GET",
