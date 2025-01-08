@@ -1,4 +1,4 @@
-const API_BASE_URL = `${ import.meta.env.VITE_API_URI }/api`;
+const API_BASE_URL = ( `${ DATABASE_URI }` );
 
 export const generateStory = async ( promptData ) =>
 {
