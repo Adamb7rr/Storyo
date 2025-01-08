@@ -1,10 +1,9 @@
 # Storyo - AI Storytelling
 
-Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs. The project consists of two parts:
+Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs.
 
-1. **Frontend** built using **Vite**, **React.js**, and **Tailwind CSS**.
-2. **Backend** built using **Flask** and connected to a **MongoDB** database.
 
+This README provides an overview of how to run and use the project, including setup instructions for both the frontend and backend.
 -------
 
 ## Technologies Used
@@ -18,8 +17,6 @@ Welcome to **Storyo**, an AI-driven platform for generating creative stories bas
   - Flask (web framework)
   - MongoDB (database)
   - Hugging Face Transformers (for AI-driven story generation)
-
-This README provides an overview of how to run and use the project, including setup instructions for both the frontend and backend.
 
 ---
 
