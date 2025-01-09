@@ -1,10 +1,10 @@
 # Storyo - AI Storytelling
 
-Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs.
+## Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs.
+
+![Storyo-ezgif com-gif-maker](https://github.com/user-attachments/assets/c915266c-e76e-4304-9bb8-6711b96dd8fc)
 
 
-
-  ![4p9p4o](https://github.com/user-attachments/assets/a24a174b-3c10-4b32-9fc7-e250f87647c0.gif)
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/e765a1a348367494e9142cbaa9063447f2e247c3/frontend/src/images/Home.png)
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/8327d526f18df49088e487c8d7af74b4ca3cf083/frontend/src/images/Stories.png)
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/842a2849b7532a55d232ddd6ad7b5a2bf8eeb016/frontend/src/images/HowToUse.png)
