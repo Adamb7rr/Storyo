@@ -3,7 +3,8 @@
 Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs.
 
 
-  ![video alt](https://github.com/Adamb7rr/Storyo/blob/5c069f0cafcf23e7861ecf08a058841e03ad473c/frontend/src/images/Storyo%20v.mp4)
+
+https://github.com/user-attachments/assets/a24a174b-3c10-4b32-9fc7-e250f87647c0
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/e765a1a348367494e9142cbaa9063447f2e247c3/frontend/src/images/Home.png)
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/8327d526f18df49088e487c8d7af74b4ca3cf083/frontend/src/images/Stories.png)
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/842a2849b7532a55d232ddd6ad7b5a2bf8eeb016/frontend/src/images/HowToUse.png)
