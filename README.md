@@ -17,6 +17,9 @@ Welcome to **Storyo**, an AI-driven platform for generating creative stories bas
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/074a49e4bfaf688fceada2a651286839499dc0bc/frontend/src/images/HowToUse%20Dark.png)
   ![image alt](https://github.com/Adamb7rr/Storyo/blob/074a49e4bfaf688fceada2a651286839499dc0bc/frontend/src/images/HowToUse%20Light.png)
 
+## Demo Live
+## [link](doc:https://storyo.vercel.app/)
+
 - This README provides an overview of how to run and use the project,   including setup instructions for both the frontend and backend.
 -------
 
