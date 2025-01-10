@@ -1,23 +1,7 @@
 # Storyo - AI Storytelling
-
+![iPhone 15 Mockup, Perspective](https://github.com/user-attachments/assets/14405cfd-8171-4d3e-a253-f6e8a2baad3f)
 ## Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs.
-
-![Storyo-ezgif com-gif-maker](https://github.com/user-attachments/assets/c915266c-e76e-4304-9bb8-6711b96dd8fc)
-
-
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/e765a1a348367494e9142cbaa9063447f2e247c3/frontend/src/images/Home.png)
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/8327d526f18df49088e487c8d7af74b4ca3cf083/frontend/src/images/Stories.png)
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/842a2849b7532a55d232ddd6ad7b5a2bf8eeb016/frontend/src/images/HowToUse.png)
-
-  # It is also compatible with all devices + Light And Dark Theme
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/141c902aa22ac80284640601a16b360ff4c2bcf7/frontend/src/images/Home%20Dark.png)
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/141c902aa22ac80284640601a16b360ff4c2bcf7/frontend/src/images/Home%20Light.png)
-
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/141c902aa22ac80284640601a16b360ff4c2bcf7/frontend/src/images/Stories%20Dark.png)
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/074a49e4bfaf688fceada2a651286839499dc0bc/frontend/src/images/Stories%20Light.png)
-
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/074a49e4bfaf688fceada2a651286839499dc0bc/frontend/src/images/HowToUse%20Dark.png)
-  ![image alt](https://github.com/Adamb7rr/Storyo/blob/074a49e4bfaf688fceada2a651286839499dc0bc/frontend/src/images/HowToUse%20Light.png)
+  
 
 ## Demo Live [Storyo](https://storyo.vercel.app/)
 
