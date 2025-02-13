@@ -242,7 +242,7 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
           className={`mt-2 text-center text-sm
             ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}
         >
-          <p>© 2025 ADAM BAHR. All rights reserved.</p>
+          <p>© 2025 ADAM. All rights reserved.</p>
         </div>
       </footer>
     </motion.aside>
