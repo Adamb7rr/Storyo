@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FiRefreshCw } from "react-icons/fi";
 import { BACKEND_URL } from "../config";
 
 
@@ -11,7 +12,18 @@ const GenerateStory = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  
+  const magicPrompts = [
+    "A cyberpunk detective investigates a murder in a city of neon lights.",
+    "The last dragon forms an unlikely bond with a young inventor.",
+    "A hidden society of time travelers tries to prevent a global disaster.",
+    "A lost spaceship discovers a planet made entirely of crystalline structures."
+  ];
+
+  const generateMagicPrompt = () => {
+    const randomPrompt = magicPrompts[Math.floor(Math.random() * magicPrompts.length)];
+    setPrompt(randomPrompt);
+  };
+
   const handleGenerate = async () => {
     // Validate prompt
     if (!prompt.trim()) {
@@ -62,7 +74,7 @@ const GenerateStory = () => {
       setLoading(false);
     }
   };
-  
+
 
   const handleSave = async () => {
     if (!generatedStory) {
@@ -95,7 +107,7 @@ const GenerateStory = () => {
       setError(error.message || "Failed to save story");
     }
   };
-  
+
   return (
     <div className=" transition-colors duration-200">
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:py-0">
@@ -110,19 +122,23 @@ const GenerateStory = () => {
 
           <div className="space-y-8">
             {/* Prompt Input */}
-            <div className="relative">
-              
+            <div className="relative group">
               <textarea
-                
-                
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="Enter your story prompt here..."
-                className="focus:outline-none dark:focus:ring-blue-800 w-full h-36 p-3 text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 border-2 border-indigo-100 dark:border-indigo-700 rounded-xl focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-all duration-200 resize-none placeholder-gray-400 dark:placeholder-gray-500"
+                className="w-full h-40 p-4 text-gray-700 dark:text-gray-200 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-2 border-indigo-100 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 dark:focus:ring-indigo-400/30 focus:border-indigo-500 dark:focus:border-indigo-400 transition-all duration-300 resize-none placeholder-gray-400 dark:placeholder-gray-500 shadow-inner outline-none"
               />
-              <div className="absolute bottom-3 left-3 text-gray-400 dark:text-gray-500 text-sm">
+              <div className="absolute bottom-4 left-4 text-gray-400 dark:text-gray-500 text-xs font-medium">
                 {prompt.length} characters
               </div>
+              <button
+                onClick={generateMagicPrompt}
+                className="absolute bottom-3 right-3 p-2 text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm rounded-full shadow hover:shadow-md hover:scale-105 transition-all duration-300 group-hover:opacity-100"
+                title="Magic Prompt"
+              >
+                <FiRefreshCw size={18} className="hover:rotate-180 transition-transform duration-500" />
+              </button>
             </div>
 
             {/* Story Controls */}
@@ -131,12 +147,11 @@ const GenerateStory = () => {
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Story Genre
-                  
                 </label>
                 <select
                   value={mode}
                   onChange={(e) => setMode(e.target.value)}
-                  className="focus:outline-none dark:focus:ring-blue-800 w-full p-3 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-2 border-indigo-100 dark:border-indigo-700 rounded-xl focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all duration-200"
+                  className="w-full p-3.5 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm text-gray-700 dark:text-gray-200 border-2 border-indigo-100 dark:border-gray-700 rounded-xl focus:ring-4 focus:ring-indigo-500/30 dark:focus:ring-indigo-400/30 focus:border-indigo-500 transition-all duration-300 outline-none cursor-pointer hover:border-indigo-300 dark:hover:border-indigo-600 appearance-none"
                 >
                   <option value="general">📝 General</option>
                   <option value="fantasy">🧙‍♂️ Fantasy</option>
@@ -146,9 +161,10 @@ const GenerateStory = () => {
               </div>
 
               {/* Length Control */}
-              <div className="space-y-2">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                  Story Length: {length} words <p className="text-sm opacity-60">(Max: 2000)</p>
+              <div className="space-y-3">
+                <label className="flex items-center justify-between text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  <span>Story Length: <span className="text-indigo-600 dark:text-indigo-400">{length} words</span></span>
+                  <span className="text-xs opacity-60">(Max: 2000)</span>
                 </label>
                 <input
                   type="range"
@@ -156,15 +172,16 @@ const GenerateStory = () => {
                   max="2000"
                   value={length}
                   onChange={(e) => setLength(Number(e.target.value))}
-                  className="w-full h-2 bg-indigo-200 dark:bg-indigo-700 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-2.5 bg-indigo-100 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-indigo-600 dark:accent-indigo-400 hover:accent-indigo-500 transition-all duration-200"
                 />
               </div>
             </div>
 
             {/* Creativity Control */}
-            <div className="space-y-2">
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                Creativity Level: {creativity} <p className="text-sm opacity-60">(Max: 1)</p>
+            <div className="space-y-3">
+              <label className="flex items-center justify-between text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <span>Creativity Level: <span className="text-indigo-600 dark:text-indigo-400">{creativity}</span></span>
+                <span className="text-xs opacity-60">(Max: 1)</span>
               </label>
               <input
                 type="range"
@@ -173,7 +190,7 @@ const GenerateStory = () => {
                 step="0.1"
                 value={creativity}
                 onChange={(e) => setCreativity(Number(e.target.value))}
-                className="w-full h-2 bg-indigo-200 dark:bg-indigo-700 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2.5 bg-indigo-100 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-indigo-600 dark:accent-indigo-400 hover:accent-indigo-500 transition-all duration-200"
               />
             </div>
 

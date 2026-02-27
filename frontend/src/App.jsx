@@ -29,7 +29,7 @@ function App() {
     localStorage.setItem('theme', newTheme);
     document.documentElement.classList.toggle('dark');
   };
-  
+
 
   if (isLoading) {
     return (
@@ -38,18 +38,18 @@ function App() {
       </div>
     );
   }
-  
+
 
   return (
     <div className={` overflow-hidden flex min-h-screen transition-colors duration-300 
       ${theme === 'dark' ? 'bg-gray-900' : 'bg-gradient-to-br from-indigo-50 to-purple-50'}`}>
-      {/* Mobile Menu Button */}
+      {/* Sidebar Toggle Button (All Screens) */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-full bg-indigo-600 text-white md:hidden hover:bg-indigo-700 transition-colors"
+        className="fixed top-4 left-4 z-50 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-lg"
+        aria-label="Toggle Sidebar"
       >
         {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-        
       </button>
 
       {/* Theme Toggle Button */}
@@ -65,19 +65,17 @@ function App() {
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
-            initial={{ x: -300 }}
-            animate={{ x: 0 }}
-            exit={{ x: -300 }}
-            transition={{ type: "spring", stiffness: 100 }}
-            className="fixed md:relative z-40"
-            
+            initial={{ width: 0, opacity: 0, x: -50 }}
+            animate={{ width: "auto", opacity: 1, x: 0 }}
+            exit={{ width: 0, opacity: 0, x: -50 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed md:relative z-40 overflow-hidden"
           >
-            <Sidebar 
-              activeSection={activeSection} 
+            <Sidebar
+              activeSection={activeSection}
               setActiveSection={setActiveSection}
               theme={theme}
-              
-              
+              closeSidebar={() => setIsSidebarOpen(false)}
             />
           </motion.div>
         )}
@@ -86,17 +84,17 @@ function App() {
       {/* Main Content */}
       <main className={` flex-1 p-8 pt-20 md:pt-8 transition-all duration-300 
         ${theme === 'dark' ? '[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' : '[background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]'}
-        ${!isSidebarOpen ? 'ml-0' : 'null' }`}>
-        
-        
+        ${!isSidebarOpen ? 'ml-0' : 'null'}`}>
+
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          
+
         >
-          
-          
+
+
           <h1 className={` text-4xl font-bold mb-3 py-3 text-center
             ${theme === 'dark' ? 'text-white' : 'text-indigo-900'}
             bg-clip-text text-transparent bg-gradient-to-r 
@@ -124,7 +122,7 @@ function App() {
 
       {/* Overlay for mobile */}
       {isSidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-60 z-30 md:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
