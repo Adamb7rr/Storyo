@@ -43,9 +43,8 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
 
   return (
     <motion.aside
-      className={`w-80 h-screen overflow-y-hidden transition-colors duration-300
-      
-        ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white"} shadow-xl`}
+      className={`w-80 h-full min-h-screen overflow-y-auto transition-colors duration-300 flex flex-col
+        ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white"} shadow-xl`}
       id="s-page-1"
       initial={{ x: -300 }}
       animate={{ x: 0 }}
@@ -182,11 +181,11 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
 
       {/* Footer */}
       <footer
-        className={`p-6 border-t mt-2 
+        className={`p-6 border-t mt-auto 
         ${theme === "dark" ? "border-gray-700" : "border-gray-200"}`}
       >
         <div
-          className={`mt-2 text-center text-sm
+          className={`text-center text-sm
             ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}
         >
           <p>© 2025 ADAM. All rights reserved.</p>
