@@ -52,8 +52,6 @@
 
 ## Project Setup
 
-### Prerequisites
-
 Before getting started, make sure you have the following installed:
 - **Node.js** (for the frontend)
 - **npm** or **yarn** (for frontend dependency management)
