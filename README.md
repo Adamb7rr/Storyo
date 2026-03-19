@@ -23,7 +23,6 @@
 ---
 
 ## Features
-
 ### Frontend Features:
 1. **Story Generation**:
    - **Input Fields**: Users can enter a **story prompt**, select a **story genre** (Fantasy, Sci-Fi, Mystery, General), choose a **story length**, and set the **creativity level**.
@@ -51,7 +50,6 @@
 ---
 
 ## Project Setup
-
 Before getting started, make sure you have the following installed:
 - **Node.js** (for the frontend)
 - **npm** or **yarn** (for frontend dependency management)
@@ -60,7 +58,6 @@ Before getting started, make sure you have the following installed:
 - **Flask** (for the backend)
 
 ## Backend Setup
-
 1. **Clone the Repository**
 
    If you haven't cloned the project yet, start by cloning it to your local machine:
@@ -135,7 +132,6 @@ Before getting started, make sure you have the following installed:
 ---
 
 ## Frontend Setup
-
 1. **Clone the Repository**
 
    If you haven't cloned the project yet, clone it to your local machine:
@@ -175,7 +171,6 @@ Before getting started, make sure you have the following installed:
 ---
 
 ## API Endpoints (Backend)
-
 Here are the main API endpoints exposed by the backend:
 
 - **POST /generate-story**: Generates a new story based on input parameters (prompt, genre, length, creativity).
@@ -185,7 +180,6 @@ Here are the main API endpoints exposed by the backend:
 ---
 
 ## How to Use Storyo
-
 1. **Enter Story Inputs**:
    - **Story Prompt**: Provide a brief description of what you want your story to be about.
    - **Story Genre**: Choose from Fantasy, Sci-Fi, Mystery, or General.
@@ -206,18 +200,15 @@ Here are the main API endpoints exposed by the backend:
 ---
 
 ## Troubleshooting
-
 - **ModuleNotFoundError**: If you encounter errors related to missing modules, ensure all dependencies are installed by running `pip install -r requirements.txt` for the backend and `npm install` for the frontend.
 - **Database Connection Issues**: Ensure your MongoDB server is running, and verify that the `DATABASE_URI` in the `.env` file is correct.
 
 ---
 
 ## Acknowledgments
-
 - Special thanks to the open-source libraries and tools used in this project, including **Flask**, **MongoDB**, and **Hugging Face Transformers**.
 
 ## License
-
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
 ---
