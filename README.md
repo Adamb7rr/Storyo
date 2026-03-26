@@ -94,7 +94,6 @@ Before getting started, make sure you have the following installed:
    ```
 
    This will install all necessary libraries for the backend project.
-
 4. **Set Up the `.env` File**
 
    Create a `.env` file in the `backend` directory to securely store sensitive data, such as the MongoDB URI.
@@ -106,7 +105,6 @@ Before getting started, make sure you have the following installed:
    ```
 
    Replace `your_username`, `your_password`, and `your_database` with your MongoDB connection details.
-
 5. **Run the Flask Application**
 
    After everything is set up, you can run the Flask application. The entry point is the `index.py` file or the `wsgi.py` file.
@@ -142,7 +140,6 @@ Before getting started, make sure you have the following installed:
    ```
 
 2. **Install the Dependencies**
-
    Navigate to the **frontend** directory and install the necessary dependencies using **npm** or **yarn**:
 
    ```bash
@@ -151,7 +148,6 @@ Before getting started, make sure you have the following installed:
    ```
 
 3. **Configure the Backend URL**
-
    In the **frontend** folder, create a `.env` file to store the backend URL for the API. For example:
 
    ```plaintext
@@ -159,7 +155,6 @@ Before getting started, make sure you have the following installed:
    ```
 
 4. **Run the Frontend**
-
    Start the Vite development server:
 
    ```bash
