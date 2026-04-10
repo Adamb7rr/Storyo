@@ -8,8 +8,6 @@
 - This README provides an overview of how to run and use the project,   including setup instructions for both the frontend and backend.
 -------
 
-## Technologies Used
-
 - **Frontend**:
   - Vite (build tool)
   - React.js (UI framework)
@@ -21,9 +19,6 @@
   - Hugging Face Transformers (for AI-driven story generation)
 
 ---
-
-## Features
-### Frontend Features:
 1. **Story Generation**:
    - **Input Fields**: Users can enter a **story prompt**, select a **story genre** (Fantasy, Sci-Fi, Mystery, General), choose a **story length**, and set the **creativity level**.
    - **Generate Story**: Once the inputs are filled, users can click the **Generate Story** button to receive a generated story with a **title** and **body**.
