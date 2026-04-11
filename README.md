@@ -169,7 +169,6 @@ Here are the main API endpoints exposed by the backend:
 
 ---
 
-## How to Use Storyo
 1. **Enter Story Inputs**:
    - **Story Prompt**: Provide a brief description of what you want your story to be about.
    - **Story Genre**: Choose from Fantasy, Sci-Fi, Mystery, or General.
@@ -189,7 +188,6 @@ Here are the main API endpoints exposed by the backend:
 
 ---
 
-## Troubleshooting
 - **ModuleNotFoundError**: If you encounter errors related to missing modules, ensure all dependencies are installed by running `pip install -r requirements.txt` for the backend and `npm install` for the frontend.
 - **Database Connection Issues**: Ensure your MongoDB server is running, and verify that the `DATABASE_URI` in the `.env` file is correct.
 
