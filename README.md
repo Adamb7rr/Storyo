@@ -133,7 +133,6 @@ Before getting started, make sure you have the following installed:
    git clone https://github.com/Adamb7rr/Storyo
    cd frontend
    ```
-
 2. **Install the Dependencies**
    Navigate to the **frontend** directory and install the necessary dependencies using **npm** or **yarn**:
 
@@ -141,14 +140,12 @@ Before getting started, make sure you have the following installed:
    cd frontend
    npm install
    ```
-
 3. **Configure the Backend URL**
    In the **frontend** folder, create a `.env` file to store the backend URL for the API. For example:
 
    ```plaintext
    VITE_API_URI=http://127.0.0.1:5000
    ```
-
 4. **Run the Frontend**
    Start the Vite development server:
 
