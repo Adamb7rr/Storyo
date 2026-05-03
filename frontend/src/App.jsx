@@ -3,10 +3,9 @@ import Sidebar from './components/Sidebar';
 import GenerateStory from './components/GenerateStory';
 import ViewStories from './components/ViewStories';
 import HowToUse from './components/HowToUse';
+import VantaFog from './components/VantaFog';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMenu, FiX } from 'react-icons/fi';
-
-
 
 
 function App() {
@@ -33,20 +32,22 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className=" flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
+      <div className=" flex items-center justify-center min-h-screen bg-black text-white">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-indigo-500"></div>
       </div>
     );
   }
 
 
   return (
-    <div className={` overflow-hidden flex min-h-screen transition-colors duration-300 
-      ${theme === 'dark' ? 'bg-gray-900' : 'bg-gradient-to-br from-indigo-50 to-purple-50'}`}>
-      {/* Sidebar Toggle Button (All Screens) */}
+    <div className={`h-screen overflow-hidden flex transition-colors duration-300 bg-black text-white`}>
+      <VantaFog theme={theme} />
+
+
+      {/* Sidebar Toggle Button (Mobile Only) */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-lg"
+        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-lg"
         aria-label="Toggle Sidebar"
       >
         {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -62,29 +63,27 @@ function App() {
 
 
       {/* Sidebar with Animation */}
-      <AnimatePresence>
-        {isSidebarOpen && (
-          <motion.div
-            initial={{ width: 0, opacity: 0, x: -50 }}
-            animate={{ width: "auto", opacity: 1, x: 0 }}
-            exit={{ width: 0, opacity: 0, x: -50 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed md:relative z-40 overflow-hidden"
-          >
-            <Sidebar
-              activeSection={activeSection}
-              setActiveSection={setActiveSection}
-              theme={theme}
-              closeSidebar={() => setIsSidebarOpen(false)}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <motion.div
+        initial={false}
+        animate={{
+          width: isSidebarOpen ? 320 : 80, // w-80 = 320px, w-20 = 80px
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className={`fixed top-0 left-0 h-full md:sticky md:h-screen z-40 ${!isSidebarOpen ? 'hidden md:block' : 'block'}`}
+      >
+        <Sidebar
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          theme={theme}
+          isCollapsed={!isSidebarOpen}
+          toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+          closeSidebar={() => setIsSidebarOpen(false)}
+        />
+      </motion.div>
 
       {/* Main Content */}
-      <main className={` flex-1 p-8 pt-20 md:pt-8 transition-all duration-300 
-        ${theme === 'dark' ? '[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' : '[background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]'}
-        ${!isSidebarOpen ? 'ml-0' : 'null'}`}>
+      <main className={` flex-1 h-screen overflow-y-auto w-full min-w-0 p-4 sm:p-8 pt-12 sm:pt-20 md:pt-8 transition-all duration-300 relative z-10
+        ${!isSidebarOpen ? 'ml-0' : ''}`}>
 
 
         <motion.div
@@ -95,13 +94,16 @@ function App() {
         >
 
 
-          <h1 className={` text-4xl font-bold mb-3 py-3 text-center
-            ${theme === 'dark' ? 'text-white' : 'text-indigo-900'}
-            bg-clip-text text-transparent bg-gradient-to-r 
-            ${theme === 'dark' ? 'from-purple-400 to-pink-400' : 'from-indigo-600 to-purple-600'}`}>
-
-            <p className="py-3 text-lg font-bold text-gray-500 lg:text-xl dark:text-gray-400">Welcome to <span className="text-4xl text-transparent bg-clip-text bg-gradient-to-r to-Azure-600 from-sky-400">Storyo</span>, an AI-driven platform for generating creative stories.</p>
-          </h1>
+          <div className="text-center mb-4 sm:mb-10 py-2 sm:py-4">
+            <h1 className={`text-4xl sm:text-6xl font-black mb-2 sm:mb-4 tracking-tight
+              ${theme === 'dark' ? 'text-white' : 'text-indigo-950'}`}>
+              Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-600">Storyo</span>
+            </h1>
+            <p className={`text-base sm:text-xl font-semibold max-w-2xl mx-auto
+              ${theme === 'dark' ? 'text-gray-300' : 'text-indigo-900/70'}`}>
+              An AI-driven platform for generating creative stories.
+            </p>
+          </div>
           {/* Content Sections with Animation */}
           <AnimatePresence mode='wait'>
             <motion.div
