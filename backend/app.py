@@ -1,19 +1,21 @@
 import datetime
 from math import ceil
 import os
+import logging
 from flask import Flask, request, jsonify
-from g4f.client import Client
+from flask_cors import CORS
+import g4f
 from pymongo import MongoClient
 from dotenv import load_dotenv
-from flask_cors import CORS
 from bson import ObjectId
-from datetime import datetime
 
 load_dotenv()
 app = Flask(__name__)
-CORS(app) 
+CORS(app)
 
-client = Client()
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = app.logger
 
 # MongoDB connection
 DATABASE_URI = os.getenv("DATABASE_URI")
@@ -22,12 +24,10 @@ try:
     db = mongo_client["storydb"]
     stories_collection = db["stories"]
     mongo_client.server_info()
-    print("Successfully connected to MongoDB")
+    logger.info("Successfully connected to MongoDB")
 except Exception as e:
-    print(f"Failed to connect to MongoDB: {str(e)}")
+    logger.error(f"Failed to connect to MongoDB: {str(e)}")
 
-
-# Home route
 @app.route('/')
 def home():
     return jsonify({
@@ -35,16 +35,19 @@ def home():
         "status": "running"
     }), 200
 
-
 # Story generation endpoint
+@app.route("/api/generate_story", methods=["POST"])
 @app.route("/generate_story", methods=["POST"])
 def generate_story():
+    logger.info("Received request for story generation")
     data = request.json
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+    
     prompt = data.get("prompt", "").strip()
-    max_length = data.get("max_length", 200)  # Default maximum token length
-    num_return_sequences = data.get("num_return_sequences", 1)  # Number of stories to generate
-    temperature = data.get("temperature", 0.7)  # Creativity level
-    mode = data.get("mode", "general")  # Default mode
+    max_length = data.get("max_length", 500)
+    temperature = data.get("temperature", 0.7)
+    mode = data.get("mode", "general")
 
     if not prompt:
         return jsonify({"error": "Prompt cannot be empty!"}), 400
@@ -57,28 +60,74 @@ def generate_story():
         elif mode == "mystery":
             prompt = f"Mystery: {prompt}"
 
-        # Modified prompt for generating both title and story
-        structured_prompt = (f"{prompt}\n\nPlease provide a story title followed by the story itself. The title should be on a separate line.")
-
-        response = client.chat.completions.create(
-            model="gpt-4",
-            messages=[{"role": "user", "content": structured_prompt}],
-            max_tokens=max_length,
-            temperature=temperature
+        structured_prompt = (
+            f"{prompt}\n\n"
+            "Please provide a creative story. "
+            "Start with a title on the first line, then write the story on the following lines."
         )
 
-        generated_content = response.choices[0].message.content.split("\n", 1)
-        title = generated_content[0].strip()
-        story = generated_content[1].strip()
+        logger.info("Generating story...")
+
+        # Verified working providers from tests
+        providers_to_try = [
+            ("Yqcloud", "gpt-4"),
+            ("PollinationsAI", "gpt-4"), # Note: tested with gpt-4 in direct test and it was OK sometimes, or use default
+            ("Blackbox", "gpt-4"),
+        ]
+        
+        content = None
+        for p_name, model_name in providers_to_try:
+            provider = getattr(g4f.Provider, p_name, None)
+            if provider is None:
+                logger.warning(f"Provider {p_name} not found in g4f.Provider")
+                continue
+            try:
+                logger.info(f"Attempting {p_name} with model {model_name}...")
+                response = g4f.ChatCompletion.create(
+                    model=model_name,
+                    messages=[{"role": "user", "content": structured_prompt}],
+                    provider=provider
+                )
+                raw = str(response).strip()
+                logger.info(f"Provider {p_name} returned {len(raw)} characters")
+                
+                # Check for error indicators in the response text
+                if (not raw or 
+                    raw.startswith("data:") or 
+                    "Authentication Error" in raw or 
+                    "API key" in raw or 
+                    "rate limit" in raw.lower()):
+                    logger.warning(f"Provider {p_name} returned error or invalid content indicator.")
+                    continue
+                
+                content = raw
+                logger.info(f"Successfully obtained content from {p_name}")
+                break
+            except Exception as e:
+                logger.error(f"Provider {p_name} raised exception: {str(e)}")
+                continue
+
+        if not content:
+            return jsonify({"error": "All AI providers are currently unavailable. Please try again in a few seconds."}), 503
+
+        # Parse title and story
+        lines = [l for l in content.split("\n") if l.strip()]
+        if not lines:
+            return jsonify({"error": "AI returned empty lines"}), 500
+            
+        title = lines[0].strip().replace("**", "").replace("#", "").strip()
+        story = "\n".join(lines[1:]).strip() if len(lines) > 1 else content
 
         return jsonify({
             "title": title,
             "story": story
         })
     except Exception as e:
+        logger.error(f"Story generation failed: {str(e)}")
         return jsonify({"error": f"Story generation failed: {str(e)}"}), 500
-    
+
 # Save story endpoint
+@app.route("/api/save_story", methods=["POST"])
 @app.route("/save_story", methods=["POST"])
 def save_story():
     data = request.json
@@ -90,23 +139,26 @@ def save_story():
         return jsonify({"error": "Both prompt and story are required!"}), 400
 
     try:
-        # Save story to MongoDB
-        stories_collection.insert_one({"title": title, "prompt": prompt, "story": story})
+        stories_collection.insert_one({
+            "title": title, 
+            "prompt": prompt, 
+            "story": story,
+            "timestamp": datetime.datetime.utcnow()
+        })
         return jsonify({"message": "Story saved successfully!"}), 200
     except Exception as e:
         return jsonify({"error": f"Saving story failed: {str(e)}"}), 500
 
 # Get stories endpoint
 @app.route("/api/stories", methods=["GET"])
+@app.route("/stories", methods=["GET"])
 def get_stories():
     try:
-        # Retrieve all stories from MongoDB
         stories = list(stories_collection.find({}, {"_id": 0}))
         return jsonify({"stories": stories})
-     
     except Exception as e:
-        print(f"Error in get_stories: {str(e)}")
-        return jsonify({
-            "success": False,
-            "error": f"Failed to fetch stories: {str(e)}"
-        }), 500
+        logger.error(f"Error in get_stories: {str(e)}")
+        return jsonify({"error": f"Failed to fetch stories: {str(e)}"}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
