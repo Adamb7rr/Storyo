@@ -71,8 +71,9 @@ def generate_story():
         # Verified working providers from tests
         providers_to_try = [
             ("Yqcloud", "gpt-4"),
-            ("PollinationsAI", "gpt-4"), # Note: tested with gpt-4 in direct test and it was OK sometimes, or use default
-            ("Blackbox", "gpt-4"),
+            ("Airforce", "gpt-4o"),
+            ("DeepInfra", "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo"),
+            ("PollinationsAI", "gpt-4o"),
         ]
         
         content = None
@@ -88,7 +89,13 @@ def generate_story():
                     messages=[{"role": "user", "content": structured_prompt}],
                     provider=provider
                 )
-                raw = str(response).strip()
+                
+                # Handle potential iterator/generator response
+                if hasattr(response, '__iter__') and not isinstance(response, str):
+                    raw = "".join([str(chunk) for chunk in response]).strip()
+                else:
+                    raw = str(response).strip()
+                
                 logger.info(f"Provider {p_name} returned {len(raw)} characters")
                 
                 # Check for error indicators in the response text
@@ -96,8 +103,9 @@ def generate_story():
                     raw.startswith("data:") or 
                     "Authentication Error" in raw or 
                     "API key" in raw or 
-                    "rate limit" in raw.lower()):
-                    logger.warning(f"Provider {p_name} returned error or invalid content indicator.")
+                    "rate limit" in raw.lower() or
+                    "Error" in raw):
+                    logger.warning(f"Provider {p_name} returned error or invalid content indicator: {raw[:100]}")
                     continue
                 
                 content = raw
@@ -108,7 +116,7 @@ def generate_story():
                 continue
 
         if not content:
-            return jsonify({"error": "All AI providers are currently unavailable. Please try again in a few seconds."}), 503
+            return jsonify({"error": "AI services are busy. Please try another genre or try again in a moment."}), 503
 
         # Parse title and story
         lines = [l for l in content.split("\n") if l.strip()]
