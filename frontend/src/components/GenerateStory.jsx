@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { FiRefreshCw } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { FiRefreshCw, FiZap } from "react-icons/fi";
 import { BACKEND_URL } from "../config";
-
+import { useAuth } from "../contexts/AuthContext";
+import toast from "react-hot-toast";
 
 const GenerateStory = () => {
+  const { currentUser } = useAuth();
   const [prompt, setPrompt] = useState("");
   const [mode, setMode] = useState("fantasy");
   const [length, setLength] = useState(300);
@@ -12,260 +14,190 @@ const GenerateStory = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const magicPrompts = [
-    "A cyberpunk detective investigates a murder in a city of neon lights.",
-    "The last dragon forms an unlikely bond with a young inventor.",
-    "A hidden society of time travelers tries to prevent a global disaster.",
-    "A lost spaceship discovers a planet made entirely of crystalline structures."
-  ];
-
-  const generateMagicPrompt = () => {
-    const randomPrompt = magicPrompts[Math.floor(Math.random() * magicPrompts.length)];
-    setPrompt(randomPrompt);
-  };
-
-  const handleGenerate = async () => {
-    // Validate prompt
-    if (!prompt.trim()) {
-      setError("Please enter a valid prompt!");
-      return;
+  useEffect(() => {
+    const pendingPrompt = localStorage.getItem('pendingPrompt');
+    if (pendingPrompt) {
+      setPrompt(pendingPrompt);
+      localStorage.removeItem('pendingPrompt');
     }
 
+    const checkPendingSave = async () => {
+      const pendingSave = localStorage.getItem('pendingSave');
+      if (pendingSave && currentUser) {
+        const storyData = JSON.parse(pendingSave);
+        try {
+          const response = await fetch(`${BACKEND_URL}/save_story`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...storyData, userId: currentUser.uid }),
+          });
+          if (response.ok) {
+            toast.success("Guest story saved to your account!");
+            localStorage.removeItem('pendingSave');
+            setGeneratedStory({ title: storyData.title, story: storyData.story });
+            setPrompt(storyData.prompt);
+          }
+        } catch (err) {
+          console.error("Failed to auto-save guest story", err);
+        }
+      }
+    };
+    checkPendingSave();
+  }, [currentUser]);
+
+  const handleGenerate = async () => {
+    if (!prompt.trim()) {
+      toast.error("Please enter a valid prompt!");
+      return;
+    }
     setLoading(true);
     setError(null);
-
     try {
-      // Sending the request to the backend
       const response = await fetch(`${BACKEND_URL}/generate_story`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: prompt,
-          mode: mode,
-          max_length: length, // Assuming `length` is your max_length
-          temperature: creativity, // Assuming `creativity` is your temperature
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, mode, max_length: length, temperature: creativity }),
       });
-
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to generate story");
-      }
-
-      // Clean the title by removing unwanted characters (like `**`)
+      if (!response.ok) throw new Error(data.error || "Failed to generate story");
       const cleanTitle = data.title.replace(/\*\*/g, "").trim();
-
-      // Set the generated story details
-      setGeneratedStory({
-        title: cleanTitle,
-        story: data.story,
-      });
-
-      // Reset any previous errors
-      setError(null);
+      setGeneratedStory({ title: cleanTitle, story: data.story });
     } catch (error) {
       console.error("Error:", error);
-      setError(error.message || "Failed to generate story");
-      setGeneratedStory(null);
+      setError(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-
   const handleSave = async () => {
-    if (!generatedStory) {
-      setError("No story to save!");
+    if (!generatedStory) return;
+    if (!currentUser) {
+      localStorage.setItem('pendingSave', JSON.stringify({ title: generatedStory.title, prompt, story: generatedStory.story }));
+      toast.success("Log in to save your story!");
+      window.location.href = '/signup';
       return;
     }
-
     try {
       const response = await fetch(`${BACKEND_URL}/save_story`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: generatedStory.title,
-          prompt: prompt,
-          story: generatedStory.story,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: generatedStory.title, prompt, story: generatedStory.story, userId: currentUser.uid }),
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to save story");
-      }
-
-      alert("Story saved successfully!");
+      if (!response.ok) throw new Error("Failed to save story");
+      toast.success("Story saved successfully!");
     } catch (error) {
-      console.error("Error saving story:", error);
-      setError(error.message || "Failed to save story");
+      toast.error(error.message);
     }
   };
 
   return (
-    <div className=" transition-colors duration-200">
-      <div className="container mx-auto px-4 py-8 sm:px-6 lg:py-0">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl backdrop-blur-lg backdrop-filter p-6 sm:p-8">
-
-          {/* Error Display */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
-              <p>{error}</p>
+    <div className="w-full max-w-5xl mx-auto">
+      <div className="prompt-card bg-[#1a1c2e] border-white/5 shadow-2xl p-8">
+        <div className="space-y-8">
+          {/* Prompt Area */}
+          <div className="relative">
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="Enter your story prompt here..."
+              className="w-full h-56 bg-black/20 border border-white/10 rounded-2xl p-6 text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition-all resize-none text-lg leading-relaxed shadow-inner"
+            />
+            <div className="absolute bottom-4 left-6 text-[10px] uppercase tracking-widest text-white/20 font-bold">
+              {prompt.length} characters
             </div>
-          )}
-
-          <div className="space-y-8">
-            {/* Prompt Input */}
-            <div className="relative group">
-              <textarea
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Enter your story prompt here..."
-                className="w-full h-40 p-4 text-gray-700 dark:text-gray-200 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-2 border-indigo-100 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 dark:focus:ring-indigo-400/30 focus:border-indigo-500 dark:focus:border-indigo-400 transition-all duration-300 resize-none placeholder-gray-400 dark:placeholder-gray-500 shadow-inner outline-none"
-              />
-              <div className="absolute bottom-4 left-4 text-gray-400 dark:text-gray-500 text-xs font-medium">
-                {prompt.length} characters
-              </div>
-              <button
-                onClick={generateMagicPrompt}
-                className="absolute bottom-3 right-3 p-2 text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm rounded-full shadow hover:shadow-md hover:scale-105 transition-all duration-300 group-hover:opacity-100"
-                title="Magic Prompt"
-              >
-                <FiRefreshCw size={18} className="hover:rotate-180 transition-transform duration-500" />
-              </button>
-            </div>
-
-            {/* Story Controls */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Genre Selection */}
-              <div className="space-y-2">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                  Story Genre
-                </label>
-                <select
-                  value={mode}
-                  onChange={(e) => setMode(e.target.value)}
-                  className="w-full p-3.5 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm text-gray-700 dark:text-gray-200 border-2 border-indigo-100 dark:border-gray-700 rounded-xl focus:ring-4 focus:ring-indigo-500/30 dark:focus:ring-indigo-400/30 focus:border-indigo-500 transition-all duration-300 outline-none cursor-pointer hover:border-indigo-300 dark:hover:border-indigo-600 appearance-none"
-                >
-                  <option value="general">📝 General</option>
-                  <option value="fantasy">🧙‍♂️ Fantasy</option>
-                  <option value="sci-fi">🚀 Sci-Fi</option>
-                  <option value="mystery">🔍 Mystery</option>
-                </select>
-              </div>
-
-              {/* Length Control */}
-              <div className="space-y-3">
-                <label className="flex items-center justify-between text-sm font-semibold text-gray-700 dark:text-gray-300">
-                  <span>Story Length: <span className="text-indigo-600 dark:text-indigo-400">{length} words</span></span>
-                  <span className="text-xs opacity-60">(Max: 2000)</span>
-                </label>
-                <input
-                  type="range"
-                  min="50"
-                  max="2000"
-                  value={length}
-                  onChange={(e) => setLength(Number(e.target.value))}
-                  className="w-full h-2.5 bg-indigo-100 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-indigo-600 dark:accent-indigo-400 hover:accent-indigo-500 transition-all duration-200"
-                />
-              </div>
-            </div>
-
-            {/* Creativity Control */}
-            <div className="space-y-3">
-              <label className="flex items-center justify-between text-sm font-semibold text-gray-700 dark:text-gray-300">
-                <span>Creativity Level: <span className="text-indigo-600 dark:text-indigo-400">{creativity}</span></span>
-                <span className="text-xs opacity-60">(Max: 1)</span>
-              </label>
-              <input
-                type="range"
-                min="0.1"
-                max="1"
-                step="0.1"
-                value={creativity}
-                onChange={(e) => setCreativity(Number(e.target.value))}
-                className="w-full h-2.5 bg-indigo-100 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-indigo-600 dark:accent-indigo-400 hover:accent-indigo-500 transition-all duration-200"
-              />
-            </div>
-
-            {/* Generate Button */}
-            <button
-              onClick={handleGenerate}
-              disabled={loading}
-              className="w-full py-5 bg-gradient-to-l from-indigo-600 to-purple-600 dark:from-indigo-500 dark:to-purple-500 text-white text-lg font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 dark:hover:from-indigo-600 dark:hover:to-purple-600 transition-all duration-200 transform hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
-            >
-              {loading ? (
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-                  <span>Generating...</span>
-                </div>
-              ) : (
-                "✨ Generate Story"
-              )}
+            <button className="absolute bottom-4 right-6 text-purple-400 hover:text-white transition-colors">
+              <FiRefreshCw size={20} />
             </button>
-
-            {/* Generated Story Display */}
-            {generatedStory && (
-              <div className="mt-8 space-y-6">
-                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-gray-700 dark:to-gray-600 p-8 rounded-xl shadow-lg">
-                  {/* Story Title */}
-                  <h3 className="text-2xl font-bold text-indigo-900 dark:text-indigo-300 mb-6 pb-4 border-b border-indigo-200 dark:border-gray-600">
-                    {generatedStory.title}
-                  </h3>
-
-                  {/* Story Content */}
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-gray-700 dark:text-gray-200 whitespace-pre-line leading-relaxed">
-                      {generatedStory.story}
-                    </p>
-                  </div>
-
-                  {/* Story Metadata */}
-                  <div className=" mt-6 pt-4 border-t border-indigo-200 dark:border-gray-600">
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
-                      <span>Genre: {mode}</span>
-                      <span>Length: {length} words</span>
-                      <span>Creativity: {creativity}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => {
-                      // Add copy to clipboard functionality
-                      navigator.clipboard.writeText(
-                        `${generatedStory.title}\n\n${generatedStory.story}`
-                      );
-                      alert("Story copied to clipboard!");
-                    }}
-                    className="flex-1 py-3 px-4 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200"
-                  >
-                    📋 Copy
-                  </button>
-                  <button
-                    onClick={() => setGeneratedStory(null)}
-                    className="flex-1 py-3 px-4 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200"
-                  >
-                    🔄 New Story
-                  </button>
-                  <button
-                    onClick={handleSave}
-                    className="flex-1 py-3 px-4 bg-green-100 dark:bg-green-700 text-green-700 dark:text-green-200 rounded-xl hover:bg-green-200 dark:hover:bg-green-600 transition-all duration-200"
-                  >
-                    💾 Save Story
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
+
+          {/* Controls */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Story Genre</label>
+              <select
+                value={mode}
+                onChange={(e) => setMode(e.target.value)}
+                className="w-full bg-black/20 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/30 appearance-none cursor-pointer"
+              >
+                <option value="fantasy">🧙‍♂️ Fantasy</option>
+                <option value="sci-fi">🚀 Sci-Fi</option>
+                <option value="mystery">🔍 Mystery</option>
+                <option value="general">📝 General</option>
+              </select>
+            </div>
+
+            <div className="space-y-4">
+               <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-white/50">
+                  <span>Story Length</span>
+                  <span className="text-purple-400">{length} words</span>
+               </div>
+               <input
+                 type="range"
+                 min="50"
+                 max="2000"
+                 value={length}
+                 onChange={(e) => setLength(Number(e.target.value))}
+                 className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
+               />
+               <div className="flex justify-between text-[10px] text-white/20 uppercase font-black">
+                  <span>Min</span>
+                  <span>Max 2000</span>
+               </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-white/50">
+               <span>Creativity Level</span>
+               <span className="text-purple-400">{creativity}</span>
+            </div>
+            <input
+              type="range"
+              min="0.1"
+              max="1"
+              step="0.1"
+              value={creativity}
+              onChange={(e) => setCreativity(Number(e.target.value))}
+              className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
+            />
+          </div>
+
+          <button
+            onClick={handleGenerate}
+            disabled={loading}
+            className="btn-generate flex items-center justify-center gap-3 text-lg py-5"
+          >
+            {loading ? <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white" /> : <><FiZap /> Generate Story</>}
+          </button>
+
+          {/* Generated Result */}
+          {generatedStory && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-10 p-8 bg-black/30 rounded-2xl border border-white/5 shadow-2xl"
+            >
+              <h3 className="text-3xl font-bold serif mb-6 text-purple-200">{generatedStory.title}</h3>
+              <p className="text-white/70 leading-relaxed whitespace-pre-line text-lg font-light">{generatedStory.story}</p>
+              <div className="mt-10 flex gap-4">
+                <button 
+                  onClick={handleSave}
+                  className="px-8 py-3 bg-teal-600/20 text-teal-400 border border-teal-500/30 rounded-xl font-bold hover:bg-teal-600 hover:text-white transition-all"
+                >
+                  Save to Library
+                </button>
+                <button 
+                  onClick={() => setGeneratedStory(null)}
+                  className="px-8 py-3 bg-white/5 text-white/60 border border-white/10 rounded-xl font-bold hover:bg-white/10 hover:text-white transition-all"
+                >
+                  New Draft
+                </button>
+              </div>
+            </motion.div>
+          )}
+          
+          {error && <div className="text-red-400 text-sm font-bold bg-red-400/10 p-4 rounded-xl border border-red-400/20">{error}</div>}
         </div>
       </div>
     </div>

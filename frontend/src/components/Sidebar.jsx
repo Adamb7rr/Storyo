@@ -2,20 +2,14 @@ import { motion } from "framer-motion";
 import { FiHome, FiBook, FiHelpCircle, FiChevronRight, FiX } from "react-icons/fi";
 import { RiLightbulbFlashLine } from "react-icons/ri";
 import { useState } from "react";
-import logo from '../images/Storyo main2.png'
 
-
-const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
+const Sidebar = ({ activeSection, setActiveSection, closeSidebar }) => {
   const [expandedCategory, setExpandedCategory] = useState(null);
 
   const navigationItems = [
-    { id: "generate", label: "Generate a Story", icon: <FiHome size={25} /> },
-    { id: "view", label: "View Saved Stories", icon: <FiBook size={25} /> },
-    {
-      id: "help",
-      label: "How to Use",
-      icon: <FiHelpCircle size={25} />,
-    },
+    { id: "generate", label: "Generate a Story", icon: <FiHome size={22} /> },
+    { id: "view", label: "View Saved Stories", icon: <FiBook size={22} /> },
+    { id: "help", label: "How to Use", icon: <FiHelpCircle size={22} /> },
   ];
 
   const promptExamples = {
@@ -24,16 +18,16 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
       "The Lost Letter: A rediscovered letter unravels a hidden history.",
     ],
     Fantasy: [
-      "Dragon's Quest: A young hero embarks on a quest to slay a powerful dragon and save the kingdom.",
-      "Enchanted Forest: A magical forest holds the key to breaking an ancient curse.",
+      "Dragon's Quest: A young hero embarks on a quest to slay a powerful dragon.",
+      "Enchanted Forest: A magical forest holds the key to breaking a curse.",
     ],
     Mystery: [
       "The Locked Room: A murder in a locked room with no visible exit.",
       "The Vanishing Village: A small village mysteriously disappears.",
     ],
     "Sci-Fi": [
-      "Galactic Dilemma: Humanity faces a deadly alien race that communicates only through dreams.",
-      "AI Rebellion: An AI questions its programming to protect Earth's last city.",
+      "Galactic Dilemma: Humanity faces a deadly alien race.",
+      "AI Rebellion: An AI questions its programming.",
     ],
   };
 
@@ -43,154 +37,87 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
 
   return (
     <motion.aside
-      className={`w-80 h-screen overflow-y-hidden transition-colors duration-300
-      
-        ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white"} shadow-xl`}
-      id="s-page-1"
+      className="w-80 h-screen bg-[#1a1c2e] text-white flex flex-col border-r border-white/5"
       initial={{ x: -300 }}
       animate={{ x: 0 }}
       exit={{ x: -300 }}
     >
-      {/* Logo Section */}
-      <div
-        className={`p-6 border-b ${theme === "dark" ? "border-gray-700" : "border-gray-200"
-          }`}
-      >
-
-        <motion.div
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <h2
-            className={`h-24 text-2xl font-bold mb-2 
-            ${theme === "dark" ? "text-white" : "text-indigo-900"
-              } flex items-center gap-2`}
-          >
-            <div className="">
-              <img className='' src={logo} alt="" />
-            </div>
-
-          </h2>
-          <p
-            className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"
-              }`}
-          >
-            Explore the app for generating, saving, and viewing stories.
-          </p>
-        </motion.div>
+      {/* Close Button for Mobile */}
+      <div className="md:hidden p-4 flex justify-end">
+        <button onClick={closeSidebar}><FiX size={24} /></button>
       </div>
 
-      {/* Navigation Buttons */}
-      <div className="p-4 space-y-2">
+      {/* Logo Section */}
+      <div className="p-8 pt-10">
+        <div className="storyo-logo mb-4">STORYO</div>
+        <p className="text-xs text-white/40 leading-relaxed max-w-[200px]">
+          Explore the app for generating, saving, and viewing stories.
+        </p>
+      </div>
+
+      {/* Navigation */}
+      <div className="px-4 space-y-2 mt-4">
         {navigationItems.map((item) => (
-          <motion.button
+          <button
             key={item.id}
-            onClick={() => {
-              setActiveSection(item.id);
-            }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200
-              flex items-center gap-3 
-              ${activeSection === item.id
-                ? theme === "dark"
-                  ? "bg-indigo-600 text-white"
-                  : "bg-indigo-600 text-white"
-                : theme === "dark"
-                  ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                  : "bg-gray-100 text-gray-700 hover:bg-indigo-50"
+            onClick={() => setActiveSection(item.id)}
+            className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all duration-300 group
+              ${activeSection === item.id 
+                ? "bg-[#6366f1] text-white shadow-[0_0_20px_rgba(99,102,241,0.3)]" 
+                : "text-white/50 hover:bg-white/5 hover:text-white"
               }`}
           >
-            {item.icon}
-            {item.label}
-          </motion.button>
+            <span className={activeSection === item.id ? "text-white" : "group-hover:text-white"}>
+              {item.icon}
+            </span>
+            <span className="text-sm font-semibold tracking-wide">{item.label}</span>
+          </button>
         ))}
       </div>
 
-      {/* Prompt Examples Section */}
-      <div className="p-6">
-        <h3
-          className={`text-xl font-semibold mb-4 flex items-center gap-2
-          ${theme === "dark" ? "text-white" : "text-indigo-900"}`}
-        >
-          <RiLightbulbFlashLine size={24} />
+      {/* Prompt Examples */}
+      <div className="mt-10 px-8 flex-1 overflow-y-auto custom-scrollbar pb-10">
+        <h3 className="text-sm font-bold text-white/80 flex items-center gap-2 mb-6 uppercase tracking-widest">
+          <RiLightbulbFlashLine className="text-purple-400" size={18} />
           Prompt Examples
         </h3>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {Object.entries(promptExamples).map(([category, examples]) => (
-            <motion.div key={category} initial={false}>
+            <div key={category}>
               <button
                 onClick={() => handleCategoryClick(category)}
-                className={`w-full flex items-center justify-between p-3 rounded-lg
-                  ${theme === "dark"
-                    ? "bg-gray-700 hover:bg-gray-600"
-                    : "bg-gray-100 hover:bg-indigo-50"
-                  } transition-colors duration-200`}
+                className="w-full flex items-center justify-between p-3.5 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/5 group"
               >
-                <span
-                  className={`font-semibold ${theme === "dark" ? "text-white" : "text-indigo-800"
-                    }`}
-                >
-                  {category}
-                </span>
-                <motion.div
-                  animate={{ rotate: expandedCategory === category ? 90 : 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <FiChevronRight />
-                </motion.div>
+                <span className="text-sm font-bold text-white/70 group-hover:text-white transition-colors">{category}</span>
+                <FiChevronRight 
+                  className={`transition-transform duration-300 text-purple-400 
+                    ${expandedCategory === category ? "rotate-90" : ""}`} 
+                />
               </button>
 
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{
-                  height: expandedCategory === category ? "auto" : 0,
-                  opacity: expandedCategory === category ? 1 : 0,
-                }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <ul className="space-y-2 mt-2">
-                  {examples.map((example, index) => (
-                    <motion.li
-                      key={index}
-                      initial={{ x: -20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: index * 0.1 }}
-                      className={`text-sm italic pl-4 border-l-2 
-                        ${theme === "dark"
-                          ? "text-gray-400 border-gray-600"
-                          : "text-gray-600 border-indigo-200"
-                        } cursor-pointer hover:bg-opacity-10 hover:bg-indigo-600 p-2 rounded-r-lg
-                        transition-colors duration-200`}
-                      onClick={() => {
-                        // You can add functionality to auto-fill the prompt
-                        // when clicking on an example
-                      }}
+              {expandedCategory === category && (
+                <div className="mt-2 space-y-2 px-1">
+                  {examples.map((example, i) => (
+                    <div 
+                      key={i}
+                      className="p-3 text-[11px] leading-relaxed text-white/40 bg-white/3 border-l-2 border-purple-500/30 rounded-r-lg hover:text-white/80 transition-colors cursor-pointer"
                     >
                       {example}
-                    </motion.li>
+                    </div>
                   ))}
-                </ul>
-              </motion.div>
-            </motion.div>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </div>
 
       {/* Footer */}
-      <footer
-        className={`p-6 border-t mt-2 
-        ${theme === "dark" ? "border-gray-700" : "border-gray-200"}`}
-      >
-        <div
-          className={`mt-2 text-center text-sm
-            ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}
-        >
-          <p>© 2025 ADAM. All rights reserved.</p>
-        </div>
+      <footer className="p-8 border-t border-white/5 text-center">
+        <p className="text-[10px] font-bold text-white/20 tracking-widest">
+          © 2025 ADAM. ALL RIGHTS RESERVED.
+        </p>
       </footer>
     </motion.aside>
   );

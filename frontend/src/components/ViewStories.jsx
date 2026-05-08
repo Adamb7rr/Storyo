@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { BACKEND_URL } from "../config";
 import { motion } from "framer-motion";
+import { useAuth } from "../contexts/AuthContext";
 
 const ViewStories = ({ theme }) => {
+  const { currentUser } = useAuth();
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,7 +15,7 @@ const ViewStories = ({ theme }) => {
     setLoading(true);
     setError(false);
     try {
-      const response = await fetch(`${BACKEND_URL}/api/stories`, {
+      const response = await fetch(`${BACKEND_URL}/api/stories?userId=${currentUser?.uid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

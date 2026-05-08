@@ -134,6 +134,7 @@ def save_story():
     title = data.get("title", "").strip()
     prompt = data.get("prompt", "").strip()
     story = data.get("story", "").strip()
+    user_id = data.get("userId", "").strip()
 
     if not prompt or not story:
         return jsonify({"error": "Both prompt and story are required!"}), 400
@@ -143,6 +144,7 @@ def save_story():
             "title": title, 
             "prompt": prompt, 
             "story": story,
+            "userId": user_id,
             "timestamp": datetime.datetime.utcnow()
         })
         return jsonify({"message": "Story saved successfully!"}), 200
@@ -153,8 +155,13 @@ def save_story():
 @app.route("/api/stories", methods=["GET"])
 @app.route("/stories", methods=["GET"])
 def get_stories():
+    user_id = request.args.get("userId", "").strip()
     try:
-        stories = list(stories_collection.find({}, {"_id": 0}))
+        query = {}
+        if user_id:
+            query["userId"] = user_id
+            
+        stories = list(stories_collection.find(query, {"_id": 0}))
         return jsonify({"stories": stories})
     except Exception as e:
         logger.error(f"Error in get_stories: {str(e)}")
