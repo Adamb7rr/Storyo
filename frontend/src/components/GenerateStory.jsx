@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { FiRefreshCw } from "react-icons/fi";
 import { BACKEND_URL } from "../config";
+import { useAuth } from "../context/AuthContext";
 
 
-const GenerateStory = () => {
+const GenerateStory = ({ openAuth }) => {
+  const { user } = useAuth();
   const [prompt, setPrompt] = useState("");
   const [mode, setMode] = useState("fantasy");
   const [length, setLength] = useState(300);
@@ -77,13 +79,23 @@ const GenerateStory = () => {
 
 
   const handleSave = async () => {
+    if (!user) {
+      openAuth();
+      return;
+    }
+
     if (!generatedStory) {
       setError("No story to save!");
       return;
     }
 
+    console.log("Attempting to save story...", { 
+      user_id: user?.email, 
+      story_title: generatedStory?.title 
+    });
+
     try {
-      const response = await fetch(`${BACKEND_URL}/save_story`, {
+      const response = await fetch(`${BACKEND_URL}/api/save_story`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,10 +104,12 @@ const GenerateStory = () => {
           title: generatedStory.title,
           prompt: prompt,
           story: generatedStory.story,
+          user_id: user.email,
         }),
       });
 
       const data = await response.json();
+      console.log("Backend response:", data);
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to save story");

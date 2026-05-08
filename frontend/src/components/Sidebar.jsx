@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
-import { FiHome, FiBook, FiHelpCircle, FiChevronRight, FiX } from "react-icons/fi";
-import { RiLightbulbFlashLine } from "react-icons/ri";
 import { useState } from "react";
+import { FiHome, FiBook, FiHelpCircle, FiChevronRight, FiX, FiLogOut, FiUser } from "react-icons/fi";
+import { RiLightbulbFlashLine } from "react-icons/ri";
+import { useAuth } from "../context/AuthContext";
 import logo from '../images/Storyo main2.png'
 
 
 const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
   const [expandedCategory, setExpandedCategory] = useState(null);
+  const { user, logout } = useAuth();
 
   const navigationItems = [
     { id: "generate", label: "Generate a Story", icon: <FiHome size={25} /> },
@@ -180,16 +182,45 @@ const Sidebar = ({ activeSection, setActiveSection, theme, closeSidebar }) => {
         </div>
       </div>
 
+      {/* User Profile & Logout */}
+      {user && (
+        <div className={`p-4 border-t ${theme === "dark" ? "border-gray-700" : "border-gray-200"}`}>
+          <div className="flex items-center gap-3 px-3 py-2 mb-2">
+            <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-lg">
+              <FiUser size={20} />
+            </div>
+            <div className="overflow-hidden">
+              <p className={`text-xs font-bold uppercase tracking-wider ${theme === "dark" ? "text-indigo-400" : "text-indigo-600"}`}>Active User</p>
+              <p className={`text-sm font-semibold truncate ${theme === "dark" ? "text-gray-200" : "text-gray-700"}`}>{user.email}</p>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              logout();
+              setActiveSection('generate');
+            }}
+            className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-300
+              ${theme === "dark" 
+                ? "bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white" 
+                : "bg-red-50 text-red-600 hover:bg-red-600 hover:text-white"
+              } font-bold shadow-sm hover:shadow-md`}
+          >
+            <FiLogOut size={18} />
+            Sign Out
+          </button>
+        </div>
+      )}
+
       {/* Footer */}
       <footer
-        className={`p-6 border-t mt-2 
+        className={`p-6 border-t 
         ${theme === "dark" ? "border-gray-700" : "border-gray-200"}`}
       >
         <div
-          className={`mt-2 text-center text-sm
-            ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}
+          className={`mt-1 text-center text-[10px] font-black uppercase tracking-[0.2em]
+            ${theme === "dark" ? "text-gray-500" : "text-gray-400"}`}
         >
-          <p>© 2025 ADAM. All rights reserved.</p>
+          <p>© 2025 STORYO AI</p>
         </div>
       </footer>
     </motion.aside>

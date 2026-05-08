@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { BACKEND_URL } from "../config";
 import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
+import EmptyLibraryState from "./EmptyLibraryState";
 
-const ViewStories = ({ theme }) => {
+const ViewStories = ({ theme, openAuth }) => {
+  const { user } = useAuth();
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,23 +13,32 @@ const ViewStories = ({ theme }) => {
 
   // Function to fetch stories from the Flask API
   const fetchStories = async () => {
+    if (!user) {
+      setStories([]);
+      return;
+    }
     setLoading(true);
     setError(false);
+    
+    const url = `${BACKEND_URL}/api/stories?user_id=${user.email}`;
+    console.log("Fetching stories from:", url);
+
     try {
-      const response = await fetch(`${BACKEND_URL}/api/stories`, {
+      const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
+      const data = await response.json();
+      console.log("Stories received:", data);
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
       if (data.stories) {
-        // Remove asterisks from titles
         const processedStories = data.stories.map((story) => ({
           ...story,
           title: story.title.replace(/\*/g, ""),
@@ -46,7 +58,7 @@ const ViewStories = ({ theme }) => {
   // Fetch stories when component mounts
   useEffect(() => {
     fetchStories();
-  }, []);
+  }, [user]);
 
   // Modal for full story details
   const StoryModal = ({ story, onClose }) => {
@@ -172,15 +184,20 @@ const ViewStories = ({ theme }) => {
       )}
 
       {/* Empty State */}
-      {stories.length === 0 && !loading && (
+      {!user ? (
+        <EmptyLibraryState 
+          onSignIn={() => openAuth('signin')}
+          onSignUp={() => openAuth('signup')}
+        />
+      ) : stories.length === 0 && !loading && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="text-center py-12"
         >
           <div className="text-6xl mb-4">📭</div>
-          <p className="text-gray-600 text-lg">
-            No stories found. Create some!
+          <p className="text-gray-600 text-lg font-serif">
+            Your library is empty. Start a new adventure!
           </p>
         </motion.div>
       )}

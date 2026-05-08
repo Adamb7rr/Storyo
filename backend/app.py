@@ -139,11 +139,15 @@ def generate_story():
 @app.route("/save_story", methods=["POST"])
 def save_story():
     data = request.json
+    logger.info(f"Received save request: {data.get('title')} for user {data.get('user_id')}")
+    
     title = data.get("title", "").strip()
     prompt = data.get("prompt", "").strip()
     story = data.get("story", "").strip()
+    user_id = data.get("user_id", "").strip()
 
     if not prompt or not story:
+        logger.warning("Save failed: missing prompt or story")
         return jsonify({"error": "Both prompt and story are required!"}), 400
 
     try:
@@ -151,6 +155,7 @@ def save_story():
             "title": title, 
             "prompt": prompt, 
             "story": story,
+            "user_id": user_id,
             "timestamp": datetime.datetime.utcnow()
         })
         return jsonify({"message": "Story saved successfully!"}), 200
@@ -161,8 +166,13 @@ def save_story():
 @app.route("/api/stories", methods=["GET"])
 @app.route("/stories", methods=["GET"])
 def get_stories():
+    user_id = request.args.get("user_id", "").strip()
     try:
-        stories = list(stories_collection.find({}, {"_id": 0}))
+        if not user_id:
+            return jsonify({"stories": []})
+            
+        query = {"user_id": user_id}
+        stories = list(stories_collection.find(query, {"_id": 0}).sort("timestamp", -1))
         return jsonify({"stories": stories})
     except Exception as e:
         logger.error(f"Error in get_stories: {str(e)}")

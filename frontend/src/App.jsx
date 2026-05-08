@@ -5,6 +5,8 @@ import ViewStories from './components/ViewStories';
 import HowToUse from './components/HowToUse';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMenu, FiX } from 'react-icons/fi';
+import AuthModal from './components/AuthModal';
+import { useAuth } from './context/AuthContext';
 
 
 
@@ -14,6 +16,9 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [theme, setTheme] = useState('light');
   const [isLoading, setIsLoading] = useState(true);
+  const { user, login } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState('signup'); // 'signin' or 'signup'
 
   // Theme toggler
   useEffect(() => {
@@ -28,6 +33,11 @@ function App() {
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
     document.documentElement.classList.toggle('dark');
+  };
+
+  const openAuth = (mode = 'signup') => {
+    setAuthMode(mode);
+    setIsAuthModalOpen(true);
   };
 
 
@@ -112,13 +122,21 @@ function App() {
               transition={{ duration: 0.3 }}
               className="container mx-auto max-w-6xl"
             >
-              {activeSection === 'generate' && <GenerateStory theme={theme} />}
-              {activeSection === 'view' && <ViewStories theme={theme} />}
+              {activeSection === 'generate' && <GenerateStory theme={theme} openAuth={openAuth} />}
+              {activeSection === 'view' && <ViewStories theme={theme} openAuth={openAuth} />}
               {activeSection === 'help' && <HowToUse theme={theme} />}
             </motion.div>
           </AnimatePresence>
         </motion.div>
       </main>
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+        onAuthSuccess={(userData) => login(userData)}
+        initialMode={authMode}
+      />
 
       {/* Overlay for mobile */}
       {isSidebarOpen && (
