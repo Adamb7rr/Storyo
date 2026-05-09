@@ -19,12 +19,17 @@ logger = app.logger
 
 # MongoDB connection
 DATABASE_URI = os.getenv("DATABASE_URI")
+stories_collection = None
+
 try:
-    mongo_client = MongoClient(DATABASE_URI)
-    db = mongo_client["storydb"]
-    stories_collection = db["stories"]
-    mongo_client.server_info()
-    logger.info("Successfully connected to MongoDB")
+    if not DATABASE_URI:
+        logger.error("DATABASE_URI not found in environment variables")
+    else:
+        mongo_client = MongoClient(DATABASE_URI, serverSelectionTimeoutMS=5000)
+        db = mongo_client["storydb"]
+        stories_collection = db["stories"]
+        mongo_client.server_info()
+        logger.info("Successfully connected to MongoDB")
 except Exception as e:
     logger.error(f"Failed to connect to MongoDB: {str(e)}")
 
@@ -134,21 +139,27 @@ def generate_story():
         logger.error(f"Story generation failed: {str(e)}")
         return jsonify({"error": f"Story generation failed: {str(e)}"}), 500
 
-# Save story endpoint
 @app.route("/api/save_story", methods=["POST"])
 @app.route("/save_story", methods=["POST"])
 def save_story():
     data = request.json
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+        
     logger.info(f"Received save request: {data.get('title')} for user {data.get('user_id')}")
     
-    title = data.get("title", "").strip()
-    prompt = data.get("prompt", "").strip()
-    story = data.get("story", "").strip()
-    user_id = data.get("user_id", "").strip()
+    title = str(data.get("title") or "").strip()
+    prompt = str(data.get("prompt") or "").strip()
+    story = str(data.get("story") or "").strip()
+    user_id = str(data.get("user_id") or "").strip()
 
     if not prompt or not story:
         logger.warning("Save failed: missing prompt or story")
         return jsonify({"error": "Both prompt and story are required!"}), 400
+
+    if stories_collection is None:
+        logger.error("Database connection not available")
+        return jsonify({"error": "Database connection not available. Please try again later."}), 503
 
     try:
         stories_collection.insert_one({
@@ -156,13 +167,13 @@ def save_story():
             "prompt": prompt, 
             "story": story,
             "user_id": user_id,
-            "timestamp": datetime.datetime.utcnow()
+            "created_at": datetime.datetime.utcnow()
         })
         return jsonify({"message": "Story saved successfully!"}), 200
     except Exception as e:
+        logger.error(f"Saving story failed: {str(e)}")
         return jsonify({"error": f"Saving story failed: {str(e)}"}), 500
 
-# Get stories endpoint
 @app.route("/api/stories", methods=["GET"])
 @app.route("/stories", methods=["GET"])
 def get_stories():
@@ -171,12 +182,38 @@ def get_stories():
         if not user_id:
             return jsonify({"stories": []})
             
+        if stories_collection is None:
+            return jsonify({"error": "Database not connected"}), 503
+            
         query = {"user_id": user_id}
-        stories = list(stories_collection.find(query, {"_id": 0}).sort("timestamp", -1))
+        # Sort by created_at descending
+        stories = list(stories_collection.find(query, {"_id": 0}).sort("created_at", -1))
+        
+        # Handle cases where some stories might still have 'timestamp' instead of 'created_at'
+        for s in stories:
+            if 'timestamp' in s and 'created_at' not in s:
+                s['created_at'] = s['timestamp']
+                
         return jsonify({"stories": stories})
     except Exception as e:
         logger.error(f"Error in get_stories: {str(e)}")
         return jsonify({"error": f"Failed to fetch stories: {str(e)}"}), 500
+        
+@app.route("/api/stories/<story_id>", methods=["DELETE"])
+@app.route("/stories/<story_id>", methods=["DELETE"])
+def delete_story(story_id):
+    try:
+        if stories_collection is None:
+            return jsonify({"error": "Database not connected"}), 503
+            
+        # Note: story_id might be a title or an ObjectId if we didn't use {"_id": 0}
+        # In current setup, we don't have IDs in frontend. 
+        # Wait, get_stories uses {"_id": 0}, so frontend doesn't have IDs.
+        # This is a problem for deletion.
+        return jsonify({"error": "Delete not implemented: IDs missing in frontend"}), 501
+    except Exception as e:
+        logger.error(f"Error in delete_story: {str(e)}")
+        return jsonify({"error": f"Failed to delete story: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
