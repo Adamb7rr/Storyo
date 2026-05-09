@@ -20,7 +20,7 @@ const ViewStories = ({ theme, openAuth }) => {
     setLoading(true);
     setError(false);
     
-    const url = `${BACKEND_URL}/api/stories?user_id=${user.email}`;
+    const url = `${BACKEND_URL}/api/stories?user_id=${encodeURIComponent(user.email)}`;
     console.log("Fetching stories from:", url);
 
     try {
@@ -35,13 +35,13 @@ const ViewStories = ({ theme, openAuth }) => {
       console.log("Stories received:", data);
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
 
       if (data.stories) {
         const processedStories = data.stories.map((story) => ({
           ...story,
-          title: story.title.replace(/\*/g, ""),
+          title: (story.title || "Untitled Story").replace(/\*/g, ""),
         }));
         setStories(processedStories);
       } else {
@@ -49,7 +49,7 @@ const ViewStories = ({ theme, openAuth }) => {
       }
     } catch (error) {
       console.error("Error fetching stories:", error);
-      setError("Failed to fetch stories. Please try again later.");
+      setError(error.message || "Failed to fetch stories. Please try again later.");
     } finally {
       setLoading(false);
     }

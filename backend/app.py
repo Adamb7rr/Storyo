@@ -40,6 +40,16 @@ def home():
         "status": "running"
     }), 200
 
+@app.route('/test_db')
+def test_db():
+    try:
+        if stories_collection is None:
+            return jsonify({"status": "disconnected", "error": "Database collection not initialized"}), 503
+        mongo_client.server_info()
+        return jsonify({"status": "connected", "database": "storydb"}), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 # Story generation endpoint
 @app.route("/api/generate_story", methods=["POST"])
 @app.route("/generate_story", methods=["POST"])
