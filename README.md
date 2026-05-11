@@ -41,9 +41,7 @@
 
 3. **Machine Learning**:
    - Integrates with **Hugging Face's Transformers** to generate creative story content based on the user's inputs.
-
 ---
-
 ## Project Setup
 Before getting started, make sure you have the following installed:
 - **Node.js** (for the frontend)
