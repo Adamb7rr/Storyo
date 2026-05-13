@@ -1,7 +1,6 @@
 # Storyo - AI Storytelling
 ![iPhone 15 Mockup, Perspective](https://github.com/user-attachments/assets/14405cfd-8171-4d3e-a253-f6e8a2baad3f)
-## Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs.
-  
+## Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs
 
 ## Demo Live [Storyo](https://storyo.vercel.app/)
 
