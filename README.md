@@ -6,7 +6,6 @@
 
 - This README provides an overview of how to run and use the project,   including setup instructions for both the frontend and backend.
 -------
-
 - **Frontend**:
   - Vite (build tool)
   - React.js (UI framework)
