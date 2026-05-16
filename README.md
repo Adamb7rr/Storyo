@@ -50,14 +50,12 @@ Before getting started, make sure you have the following installed:
 
 ## Backend Setup
 1. **Clone the Repository**
-
    If you haven't cloned the project yet, start by cloning it to your local machine:
 
    ```bash
    git clone https://github.com/Adamb7rr/Storyo
    cd backend
    ```
-
 2. **Create and Activate a Virtual Environment**
 
    It's recommended to use a virtual environment to manage dependencies.
