@@ -88,11 +88,9 @@ Before getting started, make sure you have the following installed:
    Create a `.env` file in the `backend` directory to securely store sensitive data, such as the MongoDB URI.
 
    Example `.env` file content:
-
    ```plaintext
    DATABASE_URI=mongodb://your_username:your_password@localhost:27017/your_database
    ```
-
    Replace `your_username`, `your_password`, and `your_database` with your MongoDB connection details.
 5. **Run the Flask Application**
 
