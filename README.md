@@ -26,17 +26,14 @@
      - **Save Story**: Save the generated story to the database.
 
 2. **View Saved Stories**: Users can view previously saved stories stored in the MongoDB database by clicking the **View Saved Stories** button.
-
 3. **How to Use Storyo **: The frontend includes a section to explain how to use the platform along with **prompt examples** to help users generate interesting stories.
 
 ### Backend Features:
 1. **Flask API**: 
    - Handles the story generation logic and interactions with the database.
    - Exposes RESTful endpoints for frontend communication (e.g., saving, retrieving stories).
-
 2. **MongoDB**: 
    - Stores the generated stories, including their title, body, genre, and length.
-
 3. **Machine Learning**:
    - Integrates with **Hugging Face's Transformers** to generate creative story content based on the user's inputs.
 ---
