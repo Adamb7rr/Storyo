@@ -54,7 +54,6 @@ Before getting started, make sure you have the following installed:
    cd backend
    ```
 2. **Create and Activate a Virtual Environment**
-
    It's recommended to use a virtual environment to manage dependencies.
 
    - For **Windows**:
