@@ -15,7 +15,6 @@
   - Flask (web framework)
   - MongoDB (database)
   - Hugging Face Transformers (for AI-driven story generation)
-
 ---
 1. **Story Generation**:
    - **Input Fields**: Users can enter a **story prompt**, select a **story genre** (Fantasy, Sci-Fi, Mystery, General), choose a **story length**, and set the **creativity level**.
