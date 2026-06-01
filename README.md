@@ -142,7 +142,6 @@ Before getting started, make sure you have the following installed:
    The frontend should now be running at `http://localhost:3000`.
 
 ---
-
 ## API Endpoints (Backend)
 Here are the main API endpoints exposed by the backend:
 
@@ -175,7 +174,6 @@ Here are the main API endpoints exposed by the backend:
 - **Database Connection Issues**: Ensure your MongoDB server is running, and verify that the `DATABASE_URI` in the `.env` file is correct.
 
 ---
-
 ## Acknowledgments
 - Special thanks to the open-source libraries and tools used in this project, including **Flask**, **MongoDB**, and **Hugging Face Transformers**.
 
