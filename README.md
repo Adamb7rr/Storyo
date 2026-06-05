@@ -3,7 +3,6 @@
 ## Welcome to **Storyo**, an AI-driven platform for generating creative stories based on user inputs
 
 ## Demo Live [Storyo](https://storyo.vercel.app/)
-
 - This README provides an overview of how to run and use the project,   including setup instructions for both the frontend and backend.
 -------
 - **Frontend**:
